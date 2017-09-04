@@ -1,9 +1,13 @@
 package airline;
 
-import airline.Models.AirplaneModel;
+import airline.Models.FlightModel;
 import airline.Models.Cities;
+import airline.Models.FlightModel;
+import airline.Models.SearchCriteria;
+
 import airline.Services.CityService;
 import airline.Services.FlightServices;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -23,11 +27,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @SpringBootApplication
 public class FlightController {
 
-    public static void main(String []args) {
-        SpringApplication.run(FlightController.class,args);
-    }
-
-
     @Autowired
     private CityService cityService;
 
@@ -43,19 +42,23 @@ public class FlightController {
 
 
         model.addAttribute("cities",cities);
+        model.addAttribute("searchCriteria",new SearchCriteria());
 
       return "flightSearch";
 
     }
 
     @RequestMapping(value="/airlineSearch", method=RequestMethod.POST)
-    public String airPlaneSearch(Model model, @RequestParam String source, @RequestParam String destination){
+    public String airPlaneSearch(@ModelAttribute(value="SearchCriteria") SearchCriteria searchCriteria , Model model){
 
-        //final List<AirplaneModel> planesList =flightServices.getFlights();
+    //final List<AirplaneModel> planesList =flightServices.getFlights();
+        if((searchCriteria.getPassengers()==0)){searchCriteria.setPassengers(1);}
+        //System.out.println(searchCriteria.getDepartureDate());
 
-        final List<AirplaneModel> availableFlights =  flightServices.searchFlight(source,destination);
+        final List<FlightModel> availableFlights =  flightServices.searchFlight(searchCriteria);
 
         model.addAttribute("result",availableFlights);
+        model.addAttribute("passengers",searchCriteria.getPassengers());
         return "flightSearchResult";
 
     }

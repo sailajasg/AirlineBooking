@@ -10,21 +10,29 @@ table, th, td {
     border-collapse: collapse;
 }
 </style>
+
+<script>
+    function passengerValidationMsg(){
+    var x = document.getElementById("passCount");
+    if(x.value>9){ alert("No of Passengers can not be more than 9");}
+    }
+</script>
+
 </head>
+
 <body>
 <b><p th:text = "'Welcome to TWAirline'"/></b>
 <fieldset>
 <legend>Search Flights</legend>
-<form action="airlineSearch" method="post">
+<form th:action="@{/airlineSearch}" th:object="${searchCriteria}" method="post">
     <table>
         <tr>
             <td> Source </td>
             <td>
-                <select class="form-control" id ="src" name="source">
+                <select class="form-control" id ="src" name="source" th:field="*{source}">
                     <option value="">Select Source City</option>
-                    <option th:each = "city:${cities}"  th:value="${city.cityName}" th:text="${city.cityName}" />
-                        <!--<p th:text=""></p>-->
-                        <!--< th:text="${city.cityName}"/>&ndash;&gt;-->
+                    <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
+
                 </select>
             </td>
         </tr>
@@ -33,17 +41,29 @@ table, th, td {
                 Destination
             </td>
             <td>
-                <select class="form-control" id="dest" name="destination">
+                <select class="form-control" id="dest" name="destination" th:field="*{destination}">
                     <option value="">Select Destination City</option>
-                    <option th:each = "city:${cities}"  th:value="${city.cityName}" th:text="${city.cityName}" />
+                    <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
                 </select>
             </td>
 
         </tr>
-        
+        <tr>
+            <td> No of Passengers</td>
+            <td> <input type="text" id="passCount" name="passengerCount" th:field="*{passengers}"/></td>
+
+        </tr>
+        <tr>
+            <td> Departure Date</td>
+            <td> <input type="date"  id="depDate" name="departureDate" th:field="*{departureDate}"/></td>
+
+        </tr>
+    <tr>
+        <td colspan="2" align="center"><button name="Search" value="submit">Search</button></td>
+    </tr>
     </table>
 
-    <button name="Search" value="submit">Search</button>
+
 </form>
 </fieldset>
 </body>

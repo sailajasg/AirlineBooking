@@ -1,5 +1,6 @@
 package airline.Services;
 
+import airline.Repository.CityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -7,19 +8,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import airline.Models.Cities;
+import airline.Repository.CityRepository;
 
 @Service
 
 public class CityService {
+    public List<Cities> getCities(){
 
-
-     public List<Cities> getCities() {
-        List<Cities> cities = new ArrayList<Cities>();
-
-        cities.add(new Cities("Hyderabad","HYD"));
-        cities.add(new Cities("Bangalore","BLR"));
-        cities.add(new Cities("Chennai","CHN"));
-        cities.add(new Cities("Delhi","DEL"));
+    CityRepository cityRepository = new CityRepository();
+    List<Cities> cities = cityRepository.getCities();
         return cities;
     }
 

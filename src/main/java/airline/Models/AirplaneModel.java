@@ -1,40 +1,37 @@
 package airline.Models;
 
 public class AirplaneModel {
-    String airPlaneName;
-    String source;
-    String destination;
+    String planeID;
+    String planeName;
+    int totalCapacity;
 
-    public AirplaneModel(String airPlaneName, String source, String destination){
-        this.airPlaneName=airPlaneName;
-        this.source=source;
-        this.destination=destination;
+    public AirplaneModel(String planeID, String planeName, int totalCapacity) {
+        this.planeID = planeID;
+        this.planeName = planeName;
+        this.totalCapacity = totalCapacity;
     }
 
-    public String getAirPlaneName() {
-        return airPlaneName;
+    public String getPlaneID() {
+        return planeID;
     }
 
-    public void setAirPlaneName(String airPlaneName) {
-        this.airPlaneName = airPlaneName;
+    public void setPlaneID(String planeID) {
+        this.planeID = planeID;
     }
 
-    public String getSource() {
-        return source;
+    public String getPlaneName() {
+        return planeName;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public void setPlaneName(String planeName) {
+        this.planeName = planeName;
     }
 
-    public String getDestination() {
-        return destination;
+    public int getTotalCapacity() {
+        return totalCapacity;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setTotalCapacity(int totalCapacity) {
+        this.totalCapacity = totalCapacity;
     }
-
-
-
 }
