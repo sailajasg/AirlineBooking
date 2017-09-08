@@ -3,44 +3,35 @@ package airline.Models;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
+
+import static airline.Models.TravelClassType.TravelClass.Business;
+import static airline.Models.TravelClassType.TravelClass.Economy;
+import static airline.Models.TravelClassType.TravelClass.FirstClass;
+
+
+/**
+ * Created by sailaja on 31/8/17.
+ * This class maintians the flight information
+ * Modified on 6/9/17 to add Class type
+ * */
 
 public class FlightModel {
-    String flightID;
-    String flightName;
-    String source;
-    String destination;
+    private String flightID;
+    private String flightName;
+    private String source;
+    private String destination;
 
-    AirplaneModel airplaneModel;
+    private AirplaneModel airplaneModel;
 
-    int totalCapacity;
-    int availableSeats;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    LocalDate departureDate;
+    private LocalDate departureDate;
 
-    public String getFlightID() {
-        return flightID;
-    }
 
-    public void setFlightID(String flightID) {
-        this.flightID = flightID;
-    }
-
-    public AirplaneModel getAirplaneModel() {
-        return airplaneModel;
-    }
-
-    public void setAirplaneModel(AirplaneModel airplaneModel) {
-        this.airplaneModel = airplaneModel;
-    }
 
     public FlightModel(AirplaneModel airplaneModel,String flightName, String source, String destination){
         this.flightName=flightName;
         this.source=source;
         this.destination=destination;
-
-        this.totalCapacity=airplaneModel.totalCapacity;
-        this.availableSeats=totalCapacity;
 
     }
 
@@ -49,57 +40,98 @@ public class FlightModel {
         this.flightName=flightName;
         this.source=source;
         this.destination=destination;
-        this.totalCapacity=airplaneModel.totalCapacity;
-        this.availableSeats=totalCapacity;
         this.departureDate=departureDate;
+        this.airplaneModel=airplaneModel;
     }
 
-    public LocalDate getDepartureDate() {
+    private String getFlightID() {
+        return flightID;
+    }
+
+
+
+    private AirplaneModel getAirplaneModel() {
+        return airplaneModel;
+    }
+
+
+
+    private LocalDate getDepartureDate() {
         return departureDate;
     }
 
-    public void setDepartureDate(LocalDate departureDate) {
-        this.departureDate = departureDate;
-    }
 
-    public String getAirPlaneName() {
-        return flightName;
-    }
-
-    public void setFlightName(String flightName) {
-        this.flightName = flightName;
-    }
 
     public String getSource() {
         return source;
     }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+
 
     public String getDestination() {
         return destination;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+
+
+    public String getFlightName() {
+        return flightName;
     }
 
 
-    public int getTotalCapacity() {
-        return totalCapacity;
+    /* This method verifies the availability of flights between given source and destination */
+    public boolean isavailableFromSourceAndDestination(String source, String destination){
+
+        if((source.equalsIgnoreCase(getSource())) && (destination.equalsIgnoreCase(getDestination())))
+            return  true;
+        else
+            return false;
     }
 
-    public void setTotalCapacity(int totalCapacity) {
-        this.totalCapacity = getAirplaneModel().totalCapacity;
+
+    /* This method verifies the availability of flights for the given departure date*/
+    public boolean isFlightAvailbleforDepartureDate(LocalDate departureDate){
+        if(departureDate!=null) {
+            if (departureDate.equals(getDepartureDate()))
+                return true;
+            else
+                return false;
+        }
+        else
+            return true;
     }
 
-    public int getAvailableSeats() {
-        return availableSeats;
+    /* This method verifies the availability of seats for the given class type and the passengers*/
+
+    public boolean isSeatsAvailableForSelectedClassType(String classType, int numberOfPassengers){
+
+        int availableSeats=0;
+
+        //TravelClassType.TravelClass travelType = Business;
+
+        switch (classType){
+            case "Business":
+                availableSeats=getAirplaneModel().getTravelClass().get(Business).getAvailableSeats();
+                //System.out.println("business:"+availableSeats);
+                break;
+            case "Economy":
+                availableSeats=getAirplaneModel().getTravelClass().get(Economy).getAvailableSeats();
+
+                break;
+            case "FirstClass":
+                availableSeats=getAirplaneModel().getTravelClass().get(FirstClass).getAvailableSeats();
+
+                break;
+        }
+
+
+        if(availableSeats>=numberOfPassengers){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
-    public void setAvailableSeats(int availableSeats) {
-        this.availableSeats = availableSeats;
-    }
+
 }

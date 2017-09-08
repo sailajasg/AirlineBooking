@@ -39,4 +39,6 @@ public class FlightSearchTest {
         assertEquals((flights.searchFlight(searchCriteria).size()),0);
     }
 
+
+
 }

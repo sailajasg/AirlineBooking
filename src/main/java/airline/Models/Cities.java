@@ -1,8 +1,14 @@
 package airline.Models;
 
+
+/**
+ * Created by sailaja on 31/8/17.
+ * This class maintians cities
+ * */
+
 public class Cities {
-    String cityName;
-    String cityID;
+    private String cityName;
+    private String cityID;
 
     public Cities(String cityName, String cityID){
         this.cityName=cityName;
@@ -13,15 +19,8 @@ public class Cities {
         return cityID;
     }
 
-    public void setCityID(String cityID) {
-        this.cityID = cityID;
-    }
-
     public String getCityName() {
         return cityName;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
-    }
 }

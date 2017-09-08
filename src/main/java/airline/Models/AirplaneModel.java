@@ -1,37 +1,38 @@
 package airline.Models;
 
-public class AirplaneModel {
-    String planeID;
-    String planeName;
-    int totalCapacity;
 
-    public AirplaneModel(String planeID, String planeName, int totalCapacity) {
-        this.planeID = planeID;
-        this.planeName = planeName;
-        this.totalCapacity = totalCapacity;
+import java.util.HashMap;
+
+/**
+ * Created by sailaja on 31/8/17.
+ * This class maintains the plane details
+ * modified on 6/9/17 to add Business,Economy and FirstClass category
+ * */
+
+public class AirplaneModel {
+    private String planeID;
+    private String planeName;
+
+    private HashMap<TravelClassType.TravelClass,TravelClassModel> travelClass;
+
+
+
+    public AirplaneModel(String planeID, String planeName, HashMap<TravelClassType.TravelClass,TravelClassModel> travelClass){
+        this.planeID=planeID;
+        this.planeName=planeName;
+        this.travelClass=travelClass;
     }
 
     public String getPlaneID() {
         return planeID;
     }
 
-    public void setPlaneID(String planeID) {
-        this.planeID = planeID;
-    }
 
     public String getPlaneName() {
         return planeName;
     }
 
-    public void setPlaneName(String planeName) {
-        this.planeName = planeName;
-    }
-
-    public int getTotalCapacity() {
-        return totalCapacity;
-    }
-
-    public void setTotalCapacity(int totalCapacity) {
-        this.totalCapacity = totalCapacity;
+    public HashMap<TravelClassType.TravelClass, TravelClassModel> getTravelClass() {
+        return travelClass;
     }
 }

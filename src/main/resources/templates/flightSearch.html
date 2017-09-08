@@ -11,12 +11,6 @@ table, th, td {
 }
 </style>
 
-<script>
-    function passengerValidationMsg(){
-    var x = document.getElementById("passCount");
-    if(x.value>9){ alert("No of Passengers can not be more than 9");}
-    }
-</script>
 
 </head>
 
@@ -55,9 +49,20 @@ table, th, td {
         </tr>
         <tr>
             <td> Departure Date</td>
-            <td> <input type="date"  id="depDate" name="departureDate" th:field="*{departureDate}"/></td>
+            <td> <input type="date"  id="depDate" name="departureDate" th:field="*{departureDate}" th:min="${today}" /></td>
 
         </tr>
+
+        <tr>
+            <td> Class</td>
+            <td>
+                <select  id="class" name="classType" th:field="*{classType}">
+                    <option th:each="travelClass:${travelClassList}" th:value="${travelClass}" th:text="${travelClass}"></option>
+                </select>
+            </td>
+
+        </tr>
+
     <tr>
         <td colspan="2" align="center"><button name="Search" value="submit">Search</button></td>
     </tr>

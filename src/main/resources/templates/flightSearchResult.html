@@ -14,21 +14,26 @@
 <b><p th:text = "'Welcome to TWAirline'"/></b>
 <fieldset>
 <legend>Available Flights to accomodate <span th:text="${passengers}"/> Passengers </legend>
+
     <table>
 
         <tr>
-            <td><h4>Model of Plane</h4></td>
+            <td><h4>Flight Name  </h4></td>
             <td><h4>From</h4> </td>
             <td><h4>To</h4> </td>
+
         </tr>
         <tr th:each="flight:${result}">
-            <td th:text="${flight.airPlaneName}"></td>
+            <td th:text="${flight.flightName}"></td>
             <td th:text="${flight.source}"></td>
             <td th:text="${flight.destination}"></td>
+
         </tr>
 
     </table>
+    <h2><a href="/">Refine Search</a></h2>
 </fieldset>
+
 
 </body>
 </html>

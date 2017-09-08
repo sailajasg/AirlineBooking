@@ -1,39 +1,38 @@
 package airline.Repository;
 
-import airline.Models.AirplaneModel;
-import airline.Models.FlightModel;
+import airline.Models.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+
+
+/**
+ * Created by Sailaja on 31/8/17.
+ * This class creates a list of flights
+ * */
 
 public class FlightRepository {
 
-    private static FlightRepository single_instance=null;
-
-    // static method to create instance of Singleton class
-    public static FlightRepository Singleton()
-    {
-        // To ensure only one instance is created
-        if (single_instance == null)
-        {
-            single_instance = new FlightRepository();
-        }
-        return single_instance;
-    }
 
     public List<FlightModel> getFlights(){
 
-        List<FlightModel> planesList = new ArrayList<FlightModel>();
+        List<FlightModel> planesList = new ArrayList<>();
 
-        AirplaneModel JetAirModel=new AirplaneModel("Jet001","Jet AirWays",100);
-        AirplaneModel SpiceJetModel = new AirplaneModel("SJ001","SpiceJet",10);
-        AirplaneModel AirAsiaModel = new AirplaneModel("AA001","Air Asia",2);
-        AirplaneModel AirBusModel = new AirplaneModel("AB001","AirBus",10);
-        AirplaneModel LufthansaModel = new AirplaneModel("L001","Lufthnsa",6);
-        AirplaneModel BoeingModel = new AirplaneModel("B001","Boeing",6);
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClass =new HashMap<>();
+        //System.out.println("key::"+TravelClassType.TravelClass.Business);
+        travelClass.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,6000));
+        travelClass.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8000));
+        travelClass.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,10000));
 
+
+        AirplaneModel JetAirModel=new AirplaneModel("Jet001","Jet AirWays", travelClass);
+        AirplaneModel SpiceJetModel = new AirplaneModel("SJ001","SpiceJet", travelClass);
+        AirplaneModel AirAsiaModel = new AirplaneModel("AA001","Air Asia",travelClass);
+        AirplaneModel AirBusModel = new AirplaneModel("AB001","AirBus",travelClass);
+        AirplaneModel LufthansaModel = new AirplaneModel("L001","Lufthansa",travelClass);
+        AirplaneModel BoeingModel = new AirplaneModel("B001","Boeing",travelClass);
 
 
         planesList.add(new FlightModel(JetAirModel,"JA1","CHN","HYD", LocalDate.of(2017,9,17)));
