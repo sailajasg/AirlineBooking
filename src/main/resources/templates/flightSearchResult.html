@@ -1,8 +1,13 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:if="http://www.w3.org/1999/xhtml">
 <head>
     <title>Flight Search Results</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
+
     <style>
         table, th, td {
         border: 1px solid black;
@@ -11,29 +16,31 @@
     </style>
 </head>
 <body>
-<b><p th:text = "'Welcome to TWAirline'"/></b>
-<fieldset>
-<legend>Available Flights to accomodate <span th:text="${passengers}"/> Passengers </legend>
 
-    <table>
+<h1 align="center">
+    <div class="page-header">Welcome to TWAirline</div>
+    <small>Available Flights to accomodate <span th:text="${passengers}"/> Passenger/s</small>
+</h1>
 
-        <tr>
-            <td><h4>Flight Name  </h4></td>
+
+    <table align="center">
+
+        <tr align="center">
+            <td><h4 >Flight Name  </h4></td>
             <td><h4>From</h4> </td>
             <td><h4>To</h4> </td>
+            <td><h4>Total Fare</h4></td>
 
         </tr>
         <tr th:each="flight:${result}">
-            <td th:text="${flight.flightName}"></td>
-            <td th:text="${flight.source}"></td>
-            <td th:text="${flight.destination}"></td>
-
+            <td align="center" th:text="${flight.flightName}"></td>
+            <td align="center" th:text="${flight.source}"></td>
+            <td align="center" th:text="${flight.destination}"></td>
+            <td align="right" th:text="${flight.getBaseFare(classType)*passengers}"> </td>
         </tr>
 
     </table>
-    <h2><a href="/">Refine Search</a></h2>
-</fieldset>
-
+    <h3 align="center"><a href="/">Refine Search</a></h3>
 
 </body>
 </html>

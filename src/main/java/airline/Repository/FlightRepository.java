@@ -20,19 +20,49 @@ public class FlightRepository {
 
         List<FlightModel> planesList = new ArrayList<>();
 
-        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClass =new HashMap<>();
-        //System.out.println("key::"+TravelClassType.TravelClass.Business);
-        travelClass.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,6000));
-        travelClass.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8000));
-        travelClass.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,10000));
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassJet =new HashMap<>();
+
+        travelClassJet.put(TravelClassType.TravelClass.Economy, new TravelClassModel(195, 95,6000));
+        travelClassJet.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8000));
+        travelClassJet.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,10000));
+
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassSpice =new HashMap<>();
+
+        travelClassSpice.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,5700));
+        travelClassSpice.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,7600));
+        travelClassSpice.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,9800));
+
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassAA =new HashMap<>();
+
+        travelClassAA.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,6670));
+        travelClassAA.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8550));
+        travelClassAA.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,10050));
+
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassAB =new HashMap<>();
+
+        travelClassAB.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,6070));
+        travelClassAB.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8050));
+        travelClassAB.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,10500));
+
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassLF =new HashMap<>();
+
+        travelClassLF.put(TravelClassType.TravelClass.Economy, new TravelClassModel(100, 50,65500));
+        travelClassLF.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8550));
+        travelClassLF.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,92000));
+
+        HashMap<TravelClassType.TravelClass,TravelClassModel> travelClassB =new HashMap<>();
+
+        travelClassB.put(TravelClassType.TravelClass.Economy, new TravelClassModel(195, 95,6500));
+        travelClassB.put(TravelClassType.TravelClass.Business, new TravelClassModel(30, 20,8500));
+        travelClassB.put(TravelClassType.TravelClass.FirstClass, new TravelClassModel(10, 10,9000));
 
 
-        AirplaneModel JetAirModel=new AirplaneModel("Jet001","Jet AirWays", travelClass);
-        AirplaneModel SpiceJetModel = new AirplaneModel("SJ001","SpiceJet", travelClass);
-        AirplaneModel AirAsiaModel = new AirplaneModel("AA001","Air Asia",travelClass);
-        AirplaneModel AirBusModel = new AirplaneModel("AB001","AirBus",travelClass);
-        AirplaneModel LufthansaModel = new AirplaneModel("L001","Lufthansa",travelClass);
-        AirplaneModel BoeingModel = new AirplaneModel("B001","Boeing",travelClass);
+        AirplaneModel JetAirModel=new AirplaneModel("Jet001","Jet AirWays", travelClassJet);
+        AirplaneModel SpiceJetModel = new AirplaneModel("SJ001","SpiceJet", travelClassSpice);
+        AirplaneModel AirAsiaModel = new AirplaneModel("AA001","Air Asia",travelClassAA);
+        AirplaneModel AirBusModel = new AirplaneModel("AB001","AirBus",travelClassAB);
+        AirplaneModel LufthansaModel = new AirplaneModel("L001","Lufthansa",travelClassLF);
+        AirplaneModel BoeingModel = new AirplaneModel("B001","Boeing",travelClassB);
 
 
         planesList.add(new FlightModel(JetAirModel,"JA1","CHN","HYD", LocalDate.of(2017,9,17)));

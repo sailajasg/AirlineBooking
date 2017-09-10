@@ -4,11 +4,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
-import static airline.Models.TravelClassType.TravelClass.Business;
-import static airline.Models.TravelClassType.TravelClass.Economy;
-import static airline.Models.TravelClassType.TravelClass.FirstClass;
-
-
 /**
  * Created by sailaja on 31/8/17.
  * This class maintians the flight information
@@ -21,12 +16,16 @@ public class FlightModel {
     private String source;
     private String destination;
 
+
     private AirplaneModel airplaneModel;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate departureDate;
 
 
+    TravelClassType.TravelClass business = TravelClassType.TravelClass.Business;
+    TravelClassType.TravelClass economy = TravelClassType.TravelClass.Economy;
+    TravelClassType.TravelClass firstClass= TravelClassType.TravelClass.FirstClass;
 
     public FlightModel(AirplaneModel airplaneModel,String flightName, String source, String destination){
         this.flightName=flightName;
@@ -50,7 +49,7 @@ public class FlightModel {
 
 
 
-    private AirplaneModel getAirplaneModel() {
+    public AirplaneModel getAirplaneModel() {
         return airplaneModel;
     }
 
@@ -80,7 +79,7 @@ public class FlightModel {
 
 
     /* This method verifies the availability of flights between given source and destination */
-    public boolean isavailableFromSourceAndDestination(String source, String destination){
+    public boolean isAvailableFromSourceAndDestination(String source, String destination){
 
         if((source.equalsIgnoreCase(getSource())) && (destination.equalsIgnoreCase(getDestination())))
             return  true;
@@ -90,7 +89,7 @@ public class FlightModel {
 
 
     /* This method verifies the availability of flights for the given departure date*/
-    public boolean isFlightAvailbleforDepartureDate(LocalDate departureDate){
+    public boolean isFlightAvailableforDepartureDate(LocalDate departureDate){
         if(departureDate!=null) {
             if (departureDate.equals(getDepartureDate()))
                 return true;
@@ -101,6 +100,12 @@ public class FlightModel {
             return true;
     }
 
+    public TravelClassModel getFlightClassTypeModel(TravelClassType.TravelClass travelClass){
+
+            return getAirplaneModel().getTravelClass().get(travelClass);
+    }
+
+
     /* This method verifies the availability of seats for the given class type and the passengers*/
 
     public boolean isSeatsAvailableForSelectedClassType(String classType, int numberOfPassengers){
@@ -108,22 +113,23 @@ public class FlightModel {
         int availableSeats=0;
 
         //TravelClassType.TravelClass travelType = Business;
+        if(classType!=null) {
+            switch (classType) {
+                case "Business":
+                    availableSeats = getFlightClassTypeModel(business).getAvailableSeats();
+                    break;
+                case "Economy":
+                    availableSeats = getFlightClassTypeModel(economy).getAvailableSeats();
+                    break;
+                case "FirstClass":
+                    availableSeats = getFlightClassTypeModel(firstClass).getAvailableSeats();
+                    break;
+                default:
+                    availableSeats=0;
+                    break;
+            }
 
-        switch (classType){
-            case "Business":
-                availableSeats=getAirplaneModel().getTravelClass().get(Business).getAvailableSeats();
-                //System.out.println("business:"+availableSeats);
-                break;
-            case "Economy":
-                availableSeats=getAirplaneModel().getTravelClass().get(Economy).getAvailableSeats();
-
-                break;
-            case "FirstClass":
-                availableSeats=getAirplaneModel().getTravelClass().get(FirstClass).getAvailableSeats();
-
-                break;
         }
-
 
         if(availableSeats>=numberOfPassengers){
             return true;
@@ -133,5 +139,34 @@ public class FlightModel {
         }
     }
 
+    public double getBaseFare(String travelClass){
+        double baseFare=0;
+        switch (travelClass){
+            case "Business":
+                baseFare=getFlightClassTypeModel(business).getBaseFare();
+            //System.out.println("business:"+availableSeats);
+                break;
+            case "Economy":
+                int availableSeats=getFlightClassTypeModel(economy).getAvailableSeats();
+                int totalSeats=getFlightClassTypeModel(economy).getTotalSeats();
+                double basicFare = getFlightClassTypeModel(economy).getBaseFare();
+
+                if(availableSeats<=totalSeats*0.4) {
+                    //System.out.println("Inside 40%");
+                    baseFare = basicFare;
+                }
+                else if(availableSeats>totalSeats*0.40 && availableSeats<=totalSeats *0.90) {
+                   // System.out.println("inside 90%");
+                    baseFare = basicFare + (basicFare *0.30);
+                }
+                else
+                    baseFare=basicFare+(basicFare*0.60);
+                break;
+            case "FirstClass":
+                baseFare=getFlightClassTypeModel(firstClass).getBaseFare();
+                break;
+        }
+        return baseFare;
+    }
 
 }

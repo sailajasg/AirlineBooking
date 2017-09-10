@@ -54,6 +54,8 @@ public class FlightController {
         List<TravelClassType.TravelClass> travelClassList = Arrays.asList(TravelClassType.TravelClass.values());
        // System.out.println("List:"+travelClassList.size());
         model.addAttribute("travelClassList",travelClassList);
+        model.addAttribute("display",0);
+
 
       return "flightSearch";
 
@@ -77,9 +79,18 @@ public class FlightController {
 
         model.addAttribute("classType",searchCriteria.getClassType());
 
+        model.addAttribute("display",1);
+        model.addAttribute("searchCriteria",searchCriteria);
+        LocalDate today= LocalDate.now();
+        model.addAttribute("today",today);
 
+        final List<Cities> cities = cityService.getCities();
+        model.addAttribute("cities",cities);
 
-        return "flightSearchResult";
+        List<TravelClassType.TravelClass> travelClassList = Arrays.asList(TravelClassType.TravelClass.values());
+        model.addAttribute("travelClassList",travelClassList);
+
+        return "flightSearch";
 
     }
 

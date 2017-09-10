@@ -3,6 +3,9 @@
 <head>
     <title>TWAirlines - Flight Search</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css"
+          integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous"/>
 
 <style>
 table, th, td {
@@ -10,18 +13,25 @@ table, th, td {
     border-collapse: collapse;
 }
 </style>
+<script type="text/javascript">
+function validateClassType(){
+    var classType=document.getElementById("class");
+    alert(classType);
 
+   }
+</script>
 
 </head>
 
 <body>
-<b><p th:text = "'Welcome to TWAirline'"/></b>
-<fieldset>
-<legend>Search Flights</legend>
+<h1 align="center">
+<div class="page-header">Welcome to TWAirline</div>
+<small>Search Flights</small>
+</h1>
 <form th:action="@{/airlineSearch}" th:object="${searchCriteria}" method="post">
-    <table>
+    <table align="center">
         <tr>
-            <td> Source </td>
+            <td> <b>Source</b> </td>
             <td>
                 <select class="form-control" id ="src" name="source" th:field="*{source}">
                     <option value="">Select Source City</option>
@@ -32,7 +42,7 @@ table, th, td {
         </tr>
         <tr>
             <td>
-                Destination
+                <b>Destination</b>
             </td>
             <td>
                 <select class="form-control" id="dest" name="destination" th:field="*{destination}">
@@ -43,22 +53,24 @@ table, th, td {
 
         </tr>
         <tr>
-            <td> No of Passengers</td>
+            <td><b> No of Passengers</b></td>
             <td> <input type="text" id="passCount" name="passengerCount" th:field="*{passengers}"/></td>
 
         </tr>
         <tr>
-            <td> Departure Date</td>
+            <td> <b>Departure Date</b></td>
             <td> <input type="date"  id="depDate" name="departureDate" th:field="*{departureDate}" th:min="${today}" /></td>
 
         </tr>
 
         <tr>
-            <td> Class</td>
+            <td><b>Travel Class</b></td>
             <td>
-                <select  id="class" name="classType" th:field="*{classType}">
+                <select   id="class" name="classType" required="required" th:field="*{classType}" >
+                    <option value="">Select Travel Class</option>
                     <option th:each="travelClass:${travelClassList}" th:value="${travelClass}" th:text="${travelClass}"></option>
                 </select>
+
             </td>
 
         </tr>
@@ -70,6 +82,35 @@ table, th, td {
 
 
 </form>
-</fieldset>
+<p></p>
+
+<div th:if="${display}!=0">
+    <h2 align="center">
+        <small>Available Flights to accommodate <span th:text="${passengers}"/> Passenger/s</small>
+    </h2>
+
+
+    <table align="center">
+
+        <tr align="center">
+            <td><b >Flight Name  </b></td>
+            <td><b>From</b> </td>
+            <td><b>To</b> </td>
+            <td><b>Total Fare</b></td>
+
+        </tr>
+        <tr th:each="flight:${result}">
+            <td align="center" th:text="${flight.flightName}"></td>
+            <td align="center" th:text="${flight.source}"></td>
+            <td align="center" th:text="${flight.destination}"></td>
+            <td align="right" th:text="${flight.getBaseFare(classType)*passengers}"> </td>
+        </tr>
+
+    </table>
+    <h3 align="center"><a href="/">HOME</a></h3>
+</div>
+
 </body>
+
+
 </html>

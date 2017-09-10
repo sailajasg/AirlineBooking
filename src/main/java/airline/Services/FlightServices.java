@@ -6,6 +6,7 @@ import airline.Models.SearchCriteria;
 import airline.Repository.FlightRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 
@@ -24,12 +25,24 @@ public class FlightServices {
 
         List<FlightModel> flights = flightRepository.getFlights();
 
-       return flights.stream()
-               .filter(x -> x.isavailableFromSourceAndDestination(searchCriteria.getSource(),searchCriteria.getDestination()))
-
-                .filter(x -> x.isSeatsAvailableForSelectedClassType(searchCriteria.getClassType(),searchCriteria.getPassengers()))
-               .filter(x -> x.isFlightAvailbleforDepartureDate(searchCriteria.getDepartureDate()))
+        return flights.stream()
+                .filter(searchBetweenSourceAndDestination(searchCriteria))
+                .filter(searchForTravelClass(searchCriteria))
+                .filter(searchForDepartureDate(searchCriteria))
                 .collect(Collectors.toList());
+    }
+    private Predicate<FlightModel> searchBetweenSourceAndDestination(SearchCriteria searchCriteria){
+                return x-> x.isAvailableFromSourceAndDestination(searchCriteria.getSource(),searchCriteria.getDestination());
+    }
+
+    private Predicate<FlightModel> searchForDepartureDate(SearchCriteria searchCriteria){
+        return x -> null==(searchCriteria.getDepartureDate()) || x.isFlightAvailableforDepartureDate(searchCriteria.getDepartureDate());
+    }
+
+    private  Predicate<FlightModel> searchForTravelClass(SearchCriteria searchCriteria){
+        return x ->  (null==searchCriteria.getClassType() && (searchCriteria.getPassengers()==0))
+                ||  (x.isSeatsAvailableForSelectedClassType(searchCriteria.getClassType(), searchCriteria.getPassengers()));
+    }
 
         /*for (FlightModel planes : flights) {
 
@@ -49,4 +62,4 @@ public class FlightServices {
 
 
 
-}
+

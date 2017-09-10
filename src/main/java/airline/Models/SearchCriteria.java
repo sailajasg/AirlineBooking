@@ -31,6 +31,12 @@ public class SearchCriteria {
         this.destination=destination;
         this.departureDate=departureDate;
     }
+    public SearchCriteria(String source,String destination,int passengers,String classType){
+        this.passengers=passengers;
+        this.source=source;
+        this.destination=destination;
+        this.classType=classType;
+    }
 
     public SearchCriteria(String source,String destination,int passengers,LocalDate departureDate,String classType){
         this.passengers=passengers;
