@@ -15,7 +15,7 @@ public class SearchCriteria {
     private String destination;
     private int passengers;
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate departureDate;
+    private LocalDate travelDate;
     private String classType;
 
     public SearchCriteria(){ }
@@ -25,11 +25,11 @@ public class SearchCriteria {
         this.destination=destination;
 
     }
-    public SearchCriteria(String source,String destination,int passengers,LocalDate departureDate){
+    public SearchCriteria(String source,String destination,int passengers,LocalDate travelDate){
         this.passengers=passengers;
         this.source=source;
         this.destination=destination;
-        this.departureDate=departureDate;
+        this.travelDate=travelDate;
     }
     public SearchCriteria(String source,String destination,int passengers,String classType){
         this.passengers=passengers;
@@ -38,11 +38,11 @@ public class SearchCriteria {
         this.classType=classType;
     }
 
-    public SearchCriteria(String source,String destination,int passengers,LocalDate departureDate,String classType){
+    public SearchCriteria(String source,String destination,int passengers,LocalDate travelDate,String classType){
         this.passengers=passengers;
         this.source=source;
         this.destination=destination;
-        this.departureDate=departureDate;
+        this.travelDate=travelDate;
         this.classType=classType;
     }
 
@@ -50,7 +50,7 @@ public class SearchCriteria {
         return source;
     }
 
-    public LocalDate getDepartureDate() {  return departureDate;   }
+    public LocalDate getTravelDate() {  return travelDate;   }
 
     public String getDestination() {
         return destination;
@@ -68,7 +68,7 @@ public class SearchCriteria {
 
     public void setDestination(String destination) {  this.destination = destination;    }
 
-    public void setDepartureDate(LocalDate departureDate) {  this.departureDate = departureDate;    }
+    public void setTravelDate(LocalDate travelDate) {  this.travelDate = travelDate;    }
 
     public void setClassType(String classType) { this.classType = classType;   }
 

@@ -59,7 +59,7 @@ function validateClassType(){
         </tr>
         <tr>
             <td> <b>Departure Date</b></td>
-            <td> <input type="date"  id="depDate" name="departureDate" th:field="*{departureDate}" th:min="${today}" /></td>
+            <td> <input type="date"  id="depDate" name="travelDate" th:field="*{travelDate}" th:min="${today}" /></td>
 
         </tr>
 
@@ -96,6 +96,7 @@ function validateClassType(){
             <td><b >Flight Name  </b></td>
             <td><b>From</b> </td>
             <td><b>To</b> </td>
+            <td><b>Base Price</b></td>
             <td><b>Total Fare</b></td>
 
         </tr>
@@ -103,7 +104,8 @@ function validateClassType(){
             <td align="center" th:text="${flight.flightName}"></td>
             <td align="center" th:text="${flight.source}"></td>
             <td align="center" th:text="${flight.destination}"></td>
-            <td align="right" th:text="${flight.getBaseFare(classType)*passengers}"> </td>
+            <td align="center" th:text="${flight.getBaseFare()}"></td>
+            <td align="right" th:text="${flight.getTotalPrice()*passengers}"> </td>
         </tr>
 
     </table>

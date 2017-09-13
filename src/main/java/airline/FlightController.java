@@ -33,6 +33,7 @@ public class FlightController {
 
     @Autowired
     private FlightServices flightServices;
+
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @RequestMapping("/")
 
@@ -70,7 +71,7 @@ public class FlightController {
             searchCriteria.setPassengers(1);
         }
 
-        final List<FlightModel> availableFlights =  flightServices.searchFlight(searchCriteria);
+        final List<ViewModel> availableFlights =  flightServices.returnViewModelFlights(searchCriteria);
 
 
 

@@ -2,7 +2,12 @@ package airline.Models;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.Calendar;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 /**
  * Created by sailaja on 31/8/17.
@@ -144,27 +149,51 @@ public class FlightModel {
         switch (travelClass){
             case "Business":
                 baseFare=getFlightClassTypeModel(business).getBaseFare();
-            //System.out.println("business:"+availableSeats);
                 break;
-            case "Economy":
-                int availableSeats=getFlightClassTypeModel(economy).getAvailableSeats();
-                int totalSeats=getFlightClassTypeModel(economy).getTotalSeats();
-                double basicFare = getFlightClassTypeModel(economy).getBaseFare();
 
-                if(availableSeats<=totalSeats*0.4) {
-                    //System.out.println("Inside 40%");
-                    baseFare = basicFare;
-                }
-                else if(availableSeats>totalSeats*0.40 && availableSeats<=totalSeats *0.90) {
-                   // System.out.println("inside 90%");
-                    baseFare = basicFare + (basicFare *0.30);
-                }
-                else
-                    baseFare=basicFare+(basicFare*0.60);
+            case "Economy":
+                 baseFare = getFlightClassTypeModel(economy).getBaseFare();
                 break;
+
             case "FirstClass":
                 baseFare=getFlightClassTypeModel(firstClass).getBaseFare();
                 break;
+        }
+        //System.out.println("BaseFARE:"+ baseFare);
+        return baseFare;
+    }
+
+    public double calculateBaseFare(String travelClass){
+        double baseFare=getBaseFare(travelClass);
+        switch (travelClass){
+            case "Business":
+                if(departureDate!=null){
+                    int departureDay=departureDate.getDayOfWeek().getValue();
+                   // System.out.println("Today Date is::"+ departureDay);
+                    switch(departureDay){
+                        case 1:
+                        case 5:
+                        case 7:
+                            baseFare=baseFare+baseFare*0.40;
+                    }
+                }
+                break;
+
+            case "Economy":
+                int availableSeats=getFlightClassTypeModel(economy).getAvailableSeats();
+                int totalSeats=getFlightClassTypeModel(economy).getTotalSeats();
+                if(availableSeats<=totalSeats*0.4) {
+                    //System.out.println("Inside 40%");
+                    baseFare = baseFare;
+                }
+                else if(availableSeats>totalSeats*0.40 && availableSeats<=totalSeats *0.90) {
+                   // System.out.println("inside 90%");
+                    baseFare = baseFare + (baseFare *0.30);
+                }
+                else
+                    baseFare=baseFare+(baseFare*0.60);
+                break;
+
         }
         return baseFare;
     }
