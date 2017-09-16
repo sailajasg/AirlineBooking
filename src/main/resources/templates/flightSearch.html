@@ -13,27 +13,60 @@ table, th, td {
     border-collapse: collapse;
 }
 </style>
-<script type="text/javascript">
-function validateClassType(){
-    var classType=document.getElementById("class");
-    alert(classType);
 
-   }
-</script>
 
 </head>
 
 <body>
 <h1 align="center">
-<div class="page-header">Welcome to TWAirline</div>
-<small>Search Flights</small>
+<div class="page-header" style="background-color:yellow;">Welcome to TWAirline</div>
+<small  style="background-color:pink;">Search Flights</small>
 </h1>
 <form th:action="@{/airlineSearch}" th:object="${searchCriteria}" method="post">
+    <table align="center">
+        <tr align="center" bgcolor="#2BBBAD">
+            <td><b>Source</b></td>
+            <td><b>Destination</b></td>
+            <td><b> No of Passengers</b></td>
+            <td><b>Travel Date</b></td>
+            <td><b>Travel Class</b></td>
+        </tr>
+
+        <tr >
+            <td>
+                <select class="form-control" id ="src" name="source" th:field="*{source}" required="required">
+                    <option value="">Select Source City</option>
+                    <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
+
+                </select>
+            </td>
+
+            <td>
+                <select class="form-control" id="dest" name="destination" th:field="*{destination}" required="required">
+                    <option value="">Select Destination City</option>
+                    <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
+                </select>
+            </td>
+
+            <td> <input type="text" id="passCount" name="passengerCount" th:field="*{passengers}"/></td>
+
+            <td> <input type="date"  id="depDate" name="travelDate" th:field="*{travelDate}" th:min="${today}" /></td>
+
+            <td>
+                <select   id="class" name="classType" required="required" th:field="*{classType}" >
+                    <option value="">Select Travel Class</option>
+                    <option th:each="travelClass:${travelClassList}" th:value="${travelClass}" th:text="${travelClass}"></option>
+                </select>
+
+            </td>
+        </tr>
+
+    <!--</table>
     <table align="center">
         <tr>
             <td> <b>Source</b> </td>
             <td>
-                <select class="form-control" id ="src" name="source" th:field="*{source}">
+                <select class="form-control" id ="src" name="source" th:field="*{source}" required="required">
                     <option value="">Select Source City</option>
                     <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
 
@@ -45,7 +78,7 @@ function validateClassType(){
                 <b>Destination</b>
             </td>
             <td>
-                <select class="form-control" id="dest" name="destination" th:field="*{destination}">
+                <select class="form-control" id="dest" name="destination" th:field="*{destination}" required="required">
                     <option value="">Select Destination City</option>
                     <option th:each = "city:${cities}"  th:value="${city.cityID}" th:text="${city.cityName}" />
                 </select>
@@ -74,9 +107,9 @@ function validateClassType(){
             </td>
 
         </tr>
-
+-->
     <tr>
-        <td colspan="2" align="center"><button name="Search" value="submit">Search</button></td>
+        <td colspan="5" align="center"><button name="Search" value="submit">Search</button></td>
     </tr>
     </table>
 
@@ -86,13 +119,13 @@ function validateClassType(){
 
 <div th:if="${display}!=0">
     <h2 align="center">
-        <small>Available Flights to accommodate <span th:text="${passengers}"/> Passenger/s</small>
+        <small  style="background-color:pink;">Available Flights to accommodate <span th:text="${passengers}"/> Passenger/s</small>
     </h2>
 
 
     <table align="center">
 
-        <tr align="center">
+        <tr align="center" bgcolor="#2BBBAD">
             <td><b >Flight Name  </b></td>
             <td><b>From</b> </td>
             <td><b>To</b> </td>

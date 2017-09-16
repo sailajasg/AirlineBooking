@@ -87,7 +87,7 @@ public class FlightRepository {
         planesList.add(new FlightModel(JetAirModel,"JA4","CHN","DEL",LocalDate.of(2017,9,16)));
         planesList.add(new FlightModel(SpiceJetModel,"SJ4", "BLR","HYD",LocalDate.of(2017,9,18)));
         planesList.add(new FlightModel(AirAsiaModel,"AA4", "BLR", "DEL",LocalDate.of(2017,9,19)));
-        planesList.add(new FlightModel(BoeingModel,"B004","CHN","HYD",LocalDate.of(2017,9,20)));
+        planesList.add(new FlightModel(BoeingModel,"B004","CHN","HYD",LocalDate.of(2017,9,2)));
         planesList.add(new FlightModel(AirBusModel,"AB123D", "BLR","DEL",LocalDate.of(2017,9,15)));
         planesList.add(new FlightModel(LufthansaModel,"L004", "DEL", "BLR",LocalDate.of(2017,9,17)));
 

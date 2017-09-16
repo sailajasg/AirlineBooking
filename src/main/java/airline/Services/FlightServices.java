@@ -7,6 +7,7 @@ import airline.Models.ViewModel;
 import airline.Repository.FlightRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
@@ -42,7 +43,7 @@ public class FlightServices {
     }
 
     private Predicate<FlightModel> searchForDepartureDate(SearchCriteria searchCriteria) {
-        return x -> null == (searchCriteria.getTravelDate()) || x.isFlightAvailableforDepartureDate(searchCriteria.getTravelDate());
+        return x -> x.isFlightAvailableforDepartureDate(searchCriteria.getTravelDate());
     }
 
     private Predicate<FlightModel> searchForTravelClass(SearchCriteria searchCriteria) {
@@ -72,19 +73,30 @@ public class FlightServices {
         ViewModel viewModelFlights ;
 
         List<FlightModel> filteredFlightDetails = searchFlight(searchCriteria);
-        System.out.println("View Size:"+filteredFlightDetails.size());
+       // System.out.println("View Size:"+filteredFlightDetails.size());
 
         for (FlightModel flight : filteredFlightDetails) {
-            viewModelFlights= new ViewModel();
-            viewModelFlights.setFlightName(flight.getFlightName());
-            viewModelFlights.setSource(flight.getSource());
-            viewModelFlights.setDestination(flight.getDestination());
-            viewModelFlights.setTravelDate(searchCriteria.getTravelDate());
-            viewModelFlights.setTravelClassType(searchCriteria.getClassType());
-            viewModelFlights.setBaseFare(flight.getBaseFare(searchCriteria.getClassType()));
-            viewModelFlights.setTotalPrice(flight.calculateBaseFare(searchCriteria.getClassType()));
+            //if searched for firstclass then add to view only flights which are open for booking
+            boolean addToView=true;
+            if(searchCriteria.getClassType().equals("FirstClass") ){
 
-            viewModelList.add(viewModelFlights);
+                    LocalDate bookingStartDate = flight.getDepartureDate().minusDays(10);
+                    addToView= LocalDate.now().isAfter(bookingStartDate)? true :false;
+
+            }
+
+            if (addToView) {
+                viewModelFlights = new ViewModel();
+                viewModelFlights.setFlightName(flight.getFlightID());
+                viewModelFlights.setSource(flight.getSource());
+                viewModelFlights.setDestination(flight.getDestination());
+                viewModelFlights.setTravelDate(searchCriteria.getTravelDate());
+                viewModelFlights.setTravelClassType(searchCriteria.getClassType());
+                viewModelFlights.setBaseFare(flight.getBaseFare(searchCriteria.getClassType()));
+                viewModelFlights.setTotalPrice(flight.calculateBaseFare(searchCriteria.getClassType(), searchCriteria.getTravelDate()));
+
+                viewModelList.add(viewModelFlights);
+            }
         }
         return viewModelList;
     }

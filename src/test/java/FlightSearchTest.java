@@ -86,7 +86,7 @@ public class FlightSearchTest {
         FlightServices flights = new FlightServices();
         SearchCriteria searchCriteria = new SearchCriteria("CHN","HYD",5,"Economy");
         List<FlightModel> availableFligts = flights.searchFlight(searchCriteria);
-        assertEquals(availableFligts.get(0).calculateBaseFare("Economy"),7800.0,0);
+        assertEquals(availableFligts.get(0).calculateBaseFare("Economy",LocalDate.of(2017,9,17)),7800.0,0);
     }
 
 }

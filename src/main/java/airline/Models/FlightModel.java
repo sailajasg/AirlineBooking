@@ -2,10 +2,8 @@ package airline.Models;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
-import java.util.Calendar;
+
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
@@ -17,7 +15,6 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class FlightModel {
     private String flightID;
-    private String flightName;
     private String source;
     private String destination;
 
@@ -28,39 +25,39 @@ public class FlightModel {
     private LocalDate departureDate;
 
 
-    TravelClassType.TravelClass business = TravelClassType.TravelClass.Business;
-    TravelClassType.TravelClass economy = TravelClassType.TravelClass.Economy;
-    TravelClassType.TravelClass firstClass= TravelClassType.TravelClass.FirstClass;
+    private TravelClassType.TravelClass business = TravelClassType.TravelClass.Business;
+    private TravelClassType.TravelClass economy = TravelClassType.TravelClass.Economy;
+    private TravelClassType.TravelClass firstClass= TravelClassType.TravelClass.FirstClass;
 
-    public FlightModel(AirplaneModel airplaneModel,String flightName, String source, String destination){
-        this.flightName=flightName;
+    public FlightModel(AirplaneModel airplaneModel,String flightID, String source, String destination){
+        this.flightID=flightID;
         this.source=source;
         this.destination=destination;
 
     }
 
 
-    public FlightModel(AirplaneModel airplaneModel,String flightName, String source, String destination,  LocalDate departureDate){
-        this.flightName=flightName;
+    public FlightModel(AirplaneModel airplaneModel,String flightID, String source, String destination,  LocalDate departureDate){
+        this.flightID=flightID;
         this.source=source;
         this.destination=destination;
         this.departureDate=departureDate;
         this.airplaneModel=airplaneModel;
     }
 
-    private String getFlightID() {
+    public String getFlightID() {
         return flightID;
     }
 
 
 
-    public AirplaneModel getAirplaneModel() {
+    private AirplaneModel getAirplaneModel() {
         return airplaneModel;
     }
 
 
 
-    private LocalDate getDepartureDate() {
+    public LocalDate getDepartureDate() {
         return departureDate;
     }
 
@@ -78,11 +75,6 @@ public class FlightModel {
 
 
 
-    public String getFlightName() {
-        return flightName;
-    }
-
-
     /* This method verifies the availability of flights between given source and destination */
     public boolean isAvailableFromSourceAndDestination(String source, String destination){
 
@@ -95,16 +87,26 @@ public class FlightModel {
 
     /* This method verifies the availability of flights for the given departure date*/
     public boolean isFlightAvailableforDepartureDate(LocalDate departureDate){
+        boolean flag=false;
         if(departureDate!=null) {
             if (departureDate.equals(getDepartureDate()))
-                return true;
+                flag=true;
             else
-                return false;
+                flag=false;
         }
-        else
-            return true;
-    }
+        else{
+            LocalDate today=LocalDate.now();
 
+            if(today.isAfter(getDepartureDate())) {
+                //System.out.println(today + "::" + getDepartureDate());
+                flag = false;
+            }
+            else{
+                flag=true;
+            }
+        }
+        return flag;
+    }
     public TravelClassModel getFlightClassTypeModel(TravelClassType.TravelClass travelClass){
 
             return getAirplaneModel().getTravelClass().get(travelClass);
@@ -163,7 +165,8 @@ public class FlightModel {
         return baseFare;
     }
 
-    public double calculateBaseFare(String travelClass){
+    public double calculateBaseFare(String travelClass, LocalDate travelDate){
+
         double baseFare=getBaseFare(travelClass);
         switch (travelClass){
             case "Business":
@@ -193,9 +196,22 @@ public class FlightModel {
                 else
                     baseFare=baseFare+(baseFare*0.60);
                 break;
+            case "FirstClass":
+                //System.out.println("first");
+                if(travelDate==null){travelDate=LocalDate.now(); }
 
+                    LocalDate bookingStartDate = getDepartureDate().minusDays(10);
+                  //System.out.println("Booking date::"+bookingStartDate);
+                    if (travelDate.isAfter(bookingStartDate)) {
+                        Long differenceBetweenBookingAndBookingStartDate = DAYS.between(bookingStartDate,LocalDate.now());
+                        //System.out.println("diff::"+differenceBetweenBookingAndBookingStartDate);
+                        baseFare += baseFare * 0.1*differenceBetweenBookingAndBookingStartDate;
+                    }
+
+                break;
         }
         return baseFare;
     }
+
 
 }
